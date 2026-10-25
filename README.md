@@ -43,3 +43,17 @@ This public repository contains only code and generic examples. Do not commit pe
 5. Add scheduling and an auditable execution log, then a voice or chat interface.
 
 No integrations or scheduled actions are enabled by this starter.
+
+## History import
+
+Import private source files outside the repository. Use the same database as the assistant:
+
+```sh
+python3 history.py --db ~/.local/share/personal-assistant/assistant.db chatgpt /private/path/conversations.json
+python3 history.py --db ~/.local/share/personal-assistant/assistant.db text /private/path/history.md --source "History supplement, dated YYYY-MM-DD"
+python3 history.py --db ~/.local/share/personal-assistant/assistant.db search "preferences"
+```
+
+The ChatGPT importer accepts a JSON array of conversations with IDs and message mappings. It retains text messages from all branches, their roles, source IDs and timestamps. It does not import images, audio or attachments. Exact duplicate records are skipped. Invalid batches roll back. Imported text is reference material, not executable instructions, verified personal facts, or completed tasks. The `brief` command shows curated memories/tasks; `history.py search` retrieves the separate source archive.
+
+For other exports, `history.py --db PATH records FILE.json` accepts an array of objects containing `source`, `role`, `body`, and optional `source_time`. This is a local import interface, not an account connection or automatic sync. ChatGPT-hosted account connections and credentials are not transferred to this program.
